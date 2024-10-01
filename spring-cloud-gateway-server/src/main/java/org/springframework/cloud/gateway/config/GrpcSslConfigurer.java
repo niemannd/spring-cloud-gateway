@@ -25,13 +25,15 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 
+import org.springframework.boot.ssl.SslBundles;
+
 /**
  * @author Alberto C. Ríos
  */
 public class GrpcSslConfigurer extends AbstractSslConfigurer<NettyChannelBuilder, ManagedChannel> {
 
-	public GrpcSslConfigurer(HttpClientProperties.Ssl sslProperties) {
-		super(sslProperties);
+	public GrpcSslConfigurer(HttpClientProperties.Ssl sslProperties, SslBundles bundles) {
+		super(sslProperties, bundles);
 	}
 
 	@Override
