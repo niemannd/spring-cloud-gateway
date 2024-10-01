@@ -194,9 +194,9 @@ import org.springframework.web.reactive.socket.server.upgrade.ReactorNettyReques
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnProperty(name = "spring.cloud.gateway.enabled", matchIfMissing = true)
 @EnableConfigurationProperties
-@AutoConfigureBefore({HttpHandlerAutoConfiguration.class, WebFluxAutoConfiguration.class})
-@AutoConfigureAfter({GatewayReactiveLoadBalancerClientAutoConfiguration.class,
-		GatewayClassPathWarningAutoConfiguration.class})
+@AutoConfigureBefore({ HttpHandlerAutoConfiguration.class, WebFluxAutoConfiguration.class })
+@AutoConfigureAfter({ GatewayReactiveLoadBalancerClientAutoConfiguration.class,
+		GatewayClassPathWarningAutoConfiguration.class })
 @ConditionalOnClass(DispatcherHandler.class)
 public class GatewayAutoConfiguration {
 
@@ -624,7 +624,7 @@ public class GatewayAutoConfiguration {
 	}
 
 	@Bean
-	@ConditionalOnBean({RateLimiter.class, KeyResolver.class})
+	@ConditionalOnBean({ RateLimiter.class, KeyResolver.class })
 	@ConditionalOnEnabledFilter
 	public RequestRateLimiterGatewayFilterFactory requestRateLimiterGatewayFilterFactory(RateLimiter rateLimiter,
 			KeyResolver resolver) {
@@ -746,7 +746,7 @@ public class GatewayAutoConfiguration {
 		@Bean
 		@ConditionalOnProperty(name = "spring.cloud.gateway.httpserver.wiretap")
 		public NettyWebServerFactoryCustomizer nettyServerWiretapCustomizer(Environment environment,
-				ServerProperties serverProperties) {
+			ServerProperties serverProperties) {
 			return new NettyWebServerFactoryCustomizer(environment, serverProperties) {
 				@Override
 				public void customize(NettyReactiveWebServerFactory factory) {
@@ -765,7 +765,7 @@ public class GatewayAutoConfiguration {
 		}
 
 		@Bean
-		@ConditionalOnMissingBean({HttpClient.class, HttpClientFactory.class})
+		@ConditionalOnMissingBean({ HttpClient.class, HttpClientFactory.class })
 		public HttpClientFactory gatewayHttpClientFactory(HttpClientProperties properties,
 				ServerProperties serverProperties, List<HttpClientCustomizer> customizers,
 				HttpClientSslConfigurer sslConfigurer) {

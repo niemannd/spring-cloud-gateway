@@ -492,7 +492,7 @@ public class GatewayAutoConfigurationTests {
 
 
 	@Configuration
-	@EnableConfigurationProperties({SslProperties.class})
+	@EnableConfigurationProperties({ SslProperties.class })
 	@AutoConfigureBefore(GatewayAutoConfiguration.class)
 	protected static class SslBundleConfiguration{
 		@Bean
