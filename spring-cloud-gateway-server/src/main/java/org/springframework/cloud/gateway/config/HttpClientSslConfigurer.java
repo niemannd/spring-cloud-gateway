@@ -19,6 +19,7 @@ package org.springframework.cloud.gateway.config;
 import java.security.cert.X509Certificate;
 
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+import org.springframework.boot.ssl.SslBundles;
 import reactor.netty.http.Http11SslContextSpec;
 import reactor.netty.http.Http2SslContextSpec;
 import reactor.netty.http.client.HttpClient;
@@ -30,8 +31,8 @@ public class HttpClientSslConfigurer extends AbstractSslConfigurer<HttpClient, H
 
 	private final ServerProperties serverProperties;
 
-	public HttpClientSslConfigurer(HttpClientProperties.Ssl sslProperties, ServerProperties serverProperties) {
-		super(sslProperties);
+	public HttpClientSslConfigurer(HttpClientProperties.Ssl sslProperties, ServerProperties serverProperties, SslBundles bundles) {
+		super(sslProperties,bundles);
 		this.serverProperties = serverProperties;
 	}
 

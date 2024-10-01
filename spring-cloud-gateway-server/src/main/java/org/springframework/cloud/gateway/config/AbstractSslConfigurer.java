@@ -27,6 +27,7 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLException;
@@ -36,6 +37,8 @@ import io.netty.handler.ssl.SslContextBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.springframework.boot.ssl.SslBundle;
+import org.springframework.boot.ssl.SslBundles;
 import org.springframework.util.ResourceUtils;
 
 /**
@@ -43,6 +46,7 @@ import org.springframework.util.ResourceUtils;
  * configuration (can be the same as T).
  *
  * @author Abel Salgado Romero
+ * @author Dominic Niemann
  */
 public abstract class AbstractSslConfigurer<T, S> {
 
@@ -50,8 +54,11 @@ public abstract class AbstractSslConfigurer<T, S> {
 
 	private final HttpClientProperties.Ssl ssl;
 
-	protected AbstractSslConfigurer(HttpClientProperties.Ssl sslProperties) {
+	private final SslBundles bundles;
+
+	protected AbstractSslConfigurer(HttpClientProperties.Ssl sslProperties, SslBundles bundles) {
 		this.ssl = sslProperties;
+		this.bundles = bundles;
 	}
 
 	abstract public S configureSsl(T client) throws SSLException;
@@ -60,11 +67,31 @@ public abstract class AbstractSslConfigurer<T, S> {
 		return ssl;
 	}
 
-	protected X509Certificate[] getTrustedX509CertificatesForTrustManager() {
+	protected Collection<? extends Certificate> getTrustedX509CertificatesFromBundle() {
+		ArrayList<Certificate> allCerts = new ArrayList<>();
+		if (ssl.getsSLBundle() != null && bundles.getBundleNames().contains(ssl.getsSLBundle())) {
+			SslBundle bundle = bundles.getBundle(ssl.getsSLBundle());
+			try {
+				KeyStore trustStore = bundle.getStores().getTrustStore();
+				Iterator<String> iterator = trustStore.aliases().asIterator();
+				while (iterator.hasNext()) {
+					allCerts.add(trustStore.getCertificate(iterator.next()));
+				}
+			} catch (KeyStoreException e) {
+				throw new RuntimeException(e);
+			}
+		}
 
+		return allCerts;
+	}
+
+	protected X509Certificate[] getTrustedX509CertificatesForTrustManager() {
+		ArrayList<Certificate> allCerts = new ArrayList<>();
+		if (ssl.getsSLBundle() != null && bundles.getBundleNames().contains(ssl.getsSLBundle())) {
+			allCerts.addAll(getTrustedX509CertificatesFromBundle());
+		}
 		try {
 			CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
-			ArrayList<Certificate> allCerts = new ArrayList<>();
 			for (String trustedCert : ssl.getTrustedX509Certificates()) {
 				try {
 					URL url = ResourceUtils.getURL(trustedCert);
@@ -85,7 +112,9 @@ public abstract class AbstractSslConfigurer<T, S> {
 	protected KeyManagerFactory getKeyManagerFactory() {
 
 		try {
-			if (ssl.getKeyStore() != null && ssl.getKeyStore().length() > 0) {
+			if (bundles.getBundleNames().contains(ssl.getsSLBundle())) {
+				return bundles.getBundle(ssl.getsSLBundle()).getManagers().getKeyManagerFactory();
+			} else if (ssl.getKeyStore() != null && ssl.getKeyStore().length() > 0) {
 				KeyManagerFactory keyManagerFactory = KeyManagerFactory
 					.getInstance(KeyManagerFactory.getDefaultAlgorithm());
 				char[] keyPassword = ssl.getKeyPassword() != null ? ssl.getKeyPassword().toCharArray() : null;

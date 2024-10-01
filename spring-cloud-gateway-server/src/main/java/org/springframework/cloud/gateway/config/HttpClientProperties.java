@@ -391,6 +391,9 @@ public class HttpClientProperties {
 		/** Trusted certificates for verifying the remote endpoint's certificate. */
 		private List<String> trustedX509Certificates = new ArrayList<>();
 
+		/** Name of the sslBundle to use */
+		private String sSLBundle;
+
 		// use netty default SSL timeouts
 		/** SSL handshake timeout. Default to 10000 ms */
 		private Duration handshakeTimeout = Duration.ofMillis(10000);
@@ -494,6 +497,14 @@ public class HttpClientProperties {
 
 		public void setCloseNotifyReadTimeout(Duration closeNotifyReadTimeout) {
 			this.closeNotifyReadTimeout = closeNotifyReadTimeout;
+		}
+
+		public String getsSLBundle() {
+			return sSLBundle;
+		}
+
+		public void setsSLBundle(String sSLBundle) {
+			this.sSLBundle = sSLBundle;
 		}
 
 		@Override
