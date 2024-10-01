@@ -119,7 +119,7 @@ public class GatewayAutoConfigurationTests {
 		new ReactiveWebApplicationContextRunner()
 			.withConfiguration(AutoConfigurations.of(WebFluxAutoConfiguration.class, MetricsAutoConfiguration.class,
 					SimpleMetricsExportAutoConfiguration.class, GatewayAutoConfiguration.class,
-					HttpClientCustomizedConfig.class, ServerPropertiesConfig.class,SslBundleConfiguration.class,SslBundleConfiguration.class))
+					HttpClientCustomizedConfig.class, ServerPropertiesConfig.class,SslBundleConfiguration.class))
 			.withPropertyValues("spring.cloud.gateway.httpclient.ssl.use-insecure-trust-manager=true",
 					"spring.cloud.gateway.httpclient.connect-timeout=10",
 					"spring.cloud.gateway.httpclient.response-timeout=10s",

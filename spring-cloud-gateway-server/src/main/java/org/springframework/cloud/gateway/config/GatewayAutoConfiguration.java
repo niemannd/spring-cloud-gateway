@@ -362,7 +362,7 @@ public class GatewayAutoConfiguration {
 				.getInstance(TrustManagerFactory.getDefaultAlgorithm());
 		trustManagerFactory.init(KeyStore.getInstance(KeyStore.getDefaultType()));
 
-		return new GrpcSslConfigurer(properties.getSsl(),bundles);
+		return new GrpcSslConfigurer(properties.getSsl(), bundles);
 	}
 
 	@Bean
@@ -890,19 +890,19 @@ class GatewayHints implements RuntimeHintsRegistrar {
 			return;
 		}
 		hints.reflection()
-				.registerType(TypeReference.of(FilterDefinition.class),
-						hint -> hint.withMembers(MemberCategory.DECLARED_FIELDS, MemberCategory.INVOKE_DECLARED_METHODS,
-								MemberCategory.INVOKE_DECLARED_CONSTRUCTORS))
-				.registerType(TypeReference.of(PredicateDefinition.class),
-						hint -> hint.withMembers(MemberCategory.DECLARED_FIELDS, MemberCategory.INVOKE_DECLARED_METHODS,
-								MemberCategory.INVOKE_DECLARED_CONSTRUCTORS))
-				.registerType(TypeReference.of(AbstractNameValueGatewayFilterFactory.NameValueConfig.class),
-						hint -> hint.withMembers(MemberCategory.DECLARED_FIELDS, MemberCategory.INVOKE_DECLARED_METHODS,
-								MemberCategory.INVOKE_DECLARED_CONSTRUCTORS))
-				.registerType(TypeReference
-								.of("org.springframework.cloud.gateway.discovery.DiscoveryClientRouteDefinitionLocator$DelegatingServiceInstance"),
-						hint -> hint.withMembers(MemberCategory.DECLARED_FIELDS, MemberCategory.INVOKE_DECLARED_METHODS,
-								MemberCategory.INVOKE_DECLARED_CONSTRUCTORS));
+			.registerType(TypeReference.of(FilterDefinition.class),
+					hint -> hint.withMembers(MemberCategory.DECLARED_FIELDS, MemberCategory.INVOKE_DECLARED_METHODS,
+							MemberCategory.INVOKE_DECLARED_CONSTRUCTORS))
+			.registerType(TypeReference.of(PredicateDefinition.class),
+					hint -> hint.withMembers(MemberCategory.DECLARED_FIELDS, MemberCategory.INVOKE_DECLARED_METHODS,
+							MemberCategory.INVOKE_DECLARED_CONSTRUCTORS))
+			.registerType(TypeReference.of(AbstractNameValueGatewayFilterFactory.NameValueConfig.class),
+					hint -> hint.withMembers(MemberCategory.DECLARED_FIELDS, MemberCategory.INVOKE_DECLARED_METHODS,
+							MemberCategory.INVOKE_DECLARED_CONSTRUCTORS))
+			.registerType(TypeReference
+				.of("org.springframework.cloud.gateway.discovery.DiscoveryClientRouteDefinitionLocator$DelegatingServiceInstance"),
+					hint -> hint.withMembers(MemberCategory.DECLARED_FIELDS, MemberCategory.INVOKE_DECLARED_METHODS,
+							MemberCategory.INVOKE_DECLARED_CONSTRUCTORS));
 	}
 
 }
