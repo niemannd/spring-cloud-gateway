@@ -94,7 +94,7 @@ public class GatewayAutoConfigurationTests {
 		new ReactiveWebApplicationContextRunner()
 			.withConfiguration(AutoConfigurations.of(WebFluxAutoConfiguration.class, MetricsAutoConfiguration.class,
 					SimpleMetricsExportAutoConfiguration.class, GatewayAutoConfiguration.class,
-					ServerPropertiesConfig.class,SslBundleConfiguration.class))
+					ServerPropertiesConfig.class, SslBundleConfiguration.class))
 			.withPropertyValues("debug=true")
 			.run(context -> {
 				assertThat(context).hasSingleBean(HttpClient.class);
@@ -119,7 +119,7 @@ public class GatewayAutoConfigurationTests {
 		new ReactiveWebApplicationContextRunner()
 			.withConfiguration(AutoConfigurations.of(WebFluxAutoConfiguration.class, MetricsAutoConfiguration.class,
 					SimpleMetricsExportAutoConfiguration.class, GatewayAutoConfiguration.class,
-					HttpClientCustomizedConfig.class, ServerPropertiesConfig.class,SslBundleConfiguration.class))
+					HttpClientCustomizedConfig.class, ServerPropertiesConfig.class, SslBundleConfiguration.class))
 			.withPropertyValues("spring.cloud.gateway.httpclient.ssl.use-insecure-trust-manager=true",
 					"spring.cloud.gateway.httpclient.connect-timeout=10",
 					"spring.cloud.gateway.httpclient.response-timeout=10s",
@@ -285,7 +285,7 @@ public class GatewayAutoConfigurationTests {
 		new ReactiveWebApplicationContextRunner()
 			.withConfiguration(AutoConfigurations.of(WebFluxAutoConfiguration.class, MetricsAutoConfiguration.class,
 					SimpleMetricsExportAutoConfiguration.class, GatewayAutoConfiguration.class,
-					HttpClientCustomizedConfig.class, ServerPropertiesConfig.class,SslBundleConfiguration.class))
+					HttpClientCustomizedConfig.class, ServerPropertiesConfig.class, SslBundleConfiguration.class))
 			.withPropertyValues("server.http2.enabled=true")
 			.run(context -> {
 				assertThat(context).hasSingleBean(GRPCRequestHeadersFilter.class);
@@ -300,7 +300,7 @@ public class GatewayAutoConfigurationTests {
 		new ReactiveWebApplicationContextRunner()
 			.withConfiguration(AutoConfigurations.of(WebFluxAutoConfiguration.class, MetricsAutoConfiguration.class,
 					SimpleMetricsExportAutoConfiguration.class, GatewayAutoConfiguration.class,
-					HttpClientCustomizedConfig.class, ServerPropertiesConfig.class,SslBundleConfiguration.class))
+					HttpClientCustomizedConfig.class, ServerPropertiesConfig.class, SslBundleConfiguration.class))
 			.withPropertyValues("server.http2.enabled=false")
 			.run(context -> {
 				assertThat(context).doesNotHaveBean(GRPCRequestHeadersFilter.class);
@@ -313,7 +313,7 @@ public class GatewayAutoConfigurationTests {
 		new ReactiveWebApplicationContextRunner()
 			.withConfiguration(AutoConfigurations.of(WebFluxAutoConfiguration.class, MetricsAutoConfiguration.class,
 					SimpleMetricsExportAutoConfiguration.class, GatewayAutoConfiguration.class,
-					HttpClientCustomizedConfig.class, ServerPropertiesConfig.class,SslBundleConfiguration.class))
+					HttpClientCustomizedConfig.class, ServerPropertiesConfig.class, SslBundleConfiguration.class))
 			.withPropertyValues("server.http2.enabled=true")
 			.run(context -> {
 				assertThat(context).hasSingleBean(HttpClient.class);
@@ -492,7 +492,6 @@ public class GatewayAutoConfigurationTests {
 
 
 	@Configuration
-	@EnableConfigurationProperties({ SslProperties.class })
 	@AutoConfigureBefore(GatewayAutoConfiguration.class)
 	protected static class SslBundleConfiguration{
 		@Bean

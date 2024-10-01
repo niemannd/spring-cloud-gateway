@@ -359,7 +359,7 @@ public class GatewayAutoConfiguration {
 	public GrpcSslConfigurer grpcSslConfigurer(HttpClientProperties properties, SslBundles bundles)
 			throws KeyStoreException, NoSuchAlgorithmException {
 		TrustManagerFactory trustManagerFactory = TrustManagerFactory
-				.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+			.getInstance(TrustManagerFactory.getDefaultAlgorithm());
 		trustManagerFactory.init(KeyStore.getInstance(KeyStore.getDefaultType()));
 
 		return new GrpcSslConfigurer(properties.getSsl(), bundles);
@@ -746,7 +746,7 @@ public class GatewayAutoConfiguration {
 		@Bean
 		@ConditionalOnProperty(name = "spring.cloud.gateway.httpserver.wiretap")
 		public NettyWebServerFactoryCustomizer nettyServerWiretapCustomizer(Environment environment,
-			ServerProperties serverProperties) {
+				ServerProperties serverProperties) {
 			return new NettyWebServerFactoryCustomizer(environment, serverProperties) {
 				@Override
 				public void customize(NettyReactiveWebServerFactory factory) {
@@ -796,7 +796,7 @@ public class GatewayAutoConfiguration {
 				HttpClient httpClient) {
 			Supplier<WebsocketClientSpec.Builder> builderSupplier = () -> {
 				WebsocketClientSpec.Builder builder = WebsocketClientSpec.builder()
-						.handlePing(properties.getWebsocket().isProxyPing());
+					.handlePing(properties.getWebsocket().isProxyPing());
 				if (properties.getWebsocket().getMaxFramePayloadLength() != null) {
 					builder.maxFramePayloadLength(properties.getWebsocket().getMaxFramePayloadLength());
 				}
