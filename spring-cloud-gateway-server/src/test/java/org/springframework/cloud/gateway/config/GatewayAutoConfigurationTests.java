@@ -131,8 +131,7 @@ public class GatewayAutoConfigurationTests {
 					"spring.cloud.gateway.httpclient.max-initial-line-length=2147483647",
 					"spring.cloud.gateway.httpclient.proxy.host=myhost",
 					"spring.cloud.gateway.httpclient.ssl.ssl-bundle=mybundle",
-					"spring.cloud.gateway.httpclient.websocket.max-frame-payload-length=1024"
-					)
+					"spring.cloud.gateway.httpclient.websocket.max-frame-payload-length=1024")
 			.run(context -> {
 				assertThat(context).hasSingleBean(HttpClient.class);
 				HttpClient httpClient = context.getBean(HttpClient.class);
